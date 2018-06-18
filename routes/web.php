@@ -11,6 +11,22 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
+});*/
+
+Route::prefix('api')->group(function(){
+   
+    Route::prefix('auth')->group(function(){
+        // Register Path
+        Route::post('register', [
+            'uses'  =>  'Auth\RegisterController@register'
+        ]);
+
+        // Login Path
+        Route::post('/login', [
+            'uses' => 'Auth\LoginController@login'
+        ]);
+    });
+    
 });

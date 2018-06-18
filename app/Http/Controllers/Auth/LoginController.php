@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use JWTAuth;
+use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class LoginController extends Controller
 {
@@ -18,22 +24,33 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    public function login(Request $request){
+        $credentials = $request->only('email','password');
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+        try{
+            if(! $token = JWTAuth::attempt($credentials)){
+                return response()->json(['message' => 'Invalid Credentials'], 404);
+            }
+        }
+        catch(TokenExpiredException $e){
+            return response()->json(['message' => 'Token Expired'], 404);
+        }
+        catch(TokenInvalidException $e){
+            return response()->json(['message' => 'Token Invalid'], 404);
+        }
+        catch(JWTException $e){
+            return response()->json(['message' => 'Could not create a token'], 404);
+        }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+        $user = User::where('email', $request->email)->first();
+
+        return response()->json([
+            'token' => $token,
+            'user'  => $user,
+            'message'   =>  'Successful login'       
+        ], 200);
+
     }
+
+
 }
