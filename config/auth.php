@@ -67,8 +67,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Executives::class,
         ],
+
+        /*'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Users::class,
+        ], When uses Users model instance Executives model*/
 
         // 'users' => [
         //     'driver' => 'database',

@@ -6,7 +6,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class Executives extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'email', 'password',
+        'id','email', 'password',
     ];
 
     /**
@@ -47,4 +47,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function roles(){
+        return $this->belongsToMany('App\Roles', 'executives_roles', 'executive_id', 'role_id');
+      }
 }

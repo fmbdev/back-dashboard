@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use JWTAuth;
-use App\User;
+use App\Roles;
+use App\Executives;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -42,15 +43,14 @@ class LoginController extends Controller
             return response()->json(['message' => 'Could not create a token'], 404);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $executive = Executives::where('email', $request->email)->first();
+        $executive->roles;
 
         return response()->json([
             'token' => $token,
-            'user'  => $user,
+            'user'  => $executive,
             'message'   =>  'Successful login'       
         ], 200);
-
     }
-
 
 }

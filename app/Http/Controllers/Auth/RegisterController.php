@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Roles;
+use App\Executives;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -29,12 +30,15 @@ class RegisterController extends Controller
      */
     protected function register(Request $request)
     {
-        $user = User::create([
+        $executive = Executives::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password'))
         ]);
 
-        if($user->save()){
+        if($executive->save()){
+            $role = Roles::where('id', 3)->first();
+            $executive->roles()->attach($role);
+
             return response()->json(['message' => 'Account successfully created.'], 200);
         }else{
             return response()->json(['message' => 'The account could not be created.'], 404);
