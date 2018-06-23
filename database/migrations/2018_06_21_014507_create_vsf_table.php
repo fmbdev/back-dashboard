@@ -36,8 +36,8 @@ class CreateVsfTable extends Migration
             $table->string('Estado_Civil');
             $table->string('Valor_Vivienda');
             $table->string('Tipo_Ingreso');
-            $table->string('Ingreso_MNX');
-            $table->string('Ingreso_DLLs');
+            $table->string('Ingreso_MXN');
+            $table->string('Ingreso_Dlls');
             $table->string('Otro_ingreso');
             $table->string('Aviso_privacidad');
             $table->string('Semana');
