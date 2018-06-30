@@ -50,5 +50,9 @@ class Executives extends Authenticatable implements JWTSubject
 
     public function roles(){
         return $this->belongsToMany('App\Roles', 'executives_roles', 'executive_id', 'role_id');
-      }
+    }
+
+    public function permissions(){
+        return $this->hasMany('App\Permissions', 'executiveId');
+    }
 }

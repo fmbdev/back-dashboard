@@ -45,6 +45,7 @@ class LoginController extends Controller
 
         $executive = Executives::where('email', $request->email)->first();
         $executive->roles;
+        $executive->permissions;
 
         return response()->json([
             'token' => $token,

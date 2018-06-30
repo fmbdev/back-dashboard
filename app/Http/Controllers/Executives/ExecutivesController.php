@@ -26,5 +26,15 @@ class ExecutivesController extends Controller
         }
     }
 
+    public function getExecutiveById($id){
+        $executive = Executives::find($id);
+        $executive->roles;
+        if($executive){
+            return response()->json($executive, 200);
+        }else{
+            return response()->json(['message' => 'No record was found'], 401);
+        }
+    }
+
    
 }
