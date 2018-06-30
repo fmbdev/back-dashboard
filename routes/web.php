@@ -62,7 +62,8 @@ Route::prefix('api')->group(function(){
 
     // Update register table path
     Route::post('updatetables', [
-        'uses'  =>  'Tables\TablesController@updateRegister'
+        'uses'  =>  'Tables\TablesController@updateRegister',
+        'middleware' => 'jwt.auth'
     ]);
 
     // Leads path

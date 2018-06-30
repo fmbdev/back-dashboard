@@ -21,22 +21,27 @@ class PermissionsController extends Controller
         $executiveId = $request->input('executiveId');
 
         $register = DB::table('permissions')->where(['table' => $table, 'executiveId' => $executiveId])->get();
-
-        if($register){
-            $update = DB::table('permissions')->where(['table' => $table, 'executiveId' => $executiveId])->update(
+        if(count($register) > 0){
+            $permission = DB::table('permissions')->where(['table' => $table, 'executiveId' => $executiveId])->update(
                 array(
                     'table' => $table,
                     'fields' => $fields,
                     'executiveId' => $executiveId
                 )
             );
+        }else{
+            $permission = Permissions::create([
+               'table' => $table,
+               'fields' => $fields,
+               'executiveId' => $executiveId
+            ]);
         }
 
-       if($update){
+         if($permission){
             return response()->json(['message' => 'Correctly assigned permission.'], 200);
-       }else{
+        }else{
             return response()->json(['message' => 'The permission could not be created.'], 404);
-       }
+        }
     }
 
     /**
